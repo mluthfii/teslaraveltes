@@ -1,8 +1,10 @@
 import * as THREE from "three";
 
-export default function getStar({ numStars = 500 } = {}) {
+export default function getstar({ numStars = 1000 } = {}) {
   function randomSpherePoint() {
-    const radius = Math.random() * 25 + 25;
+    const minRadius = 70000;
+    const maxRadius = 100000;
+    const radius = Math.random() * (maxRadius - minRadius) + minRadius;
     const u = Math.random();
     const v = Math.random();
     const theta = 2 * Math.PI * u;
@@ -10,13 +12,14 @@ export default function getStar({ numStars = 500 } = {}) {
     let x = radius * Math.sin(phi) * Math.cos(theta);
     let y = radius * Math.sin(phi) * Math.sin(theta);
     let z = radius * Math.cos(phi);
-
+  
     return {
       pos: new THREE.Vector3(x, y, z),
       hue: 0.6,
       minDist: radius,
     };
   }
+  
   const verts = [];
   const colors = [];
   const positions = [];
@@ -33,10 +36,10 @@ export default function getStar({ numStars = 500 } = {}) {
   geo.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
   geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
   const mat = new THREE.PointsMaterial({
-    size: 0.2,
+    size: 300,
     vertexColors: true,
     map: new THREE.TextureLoader().load(
-      "teksture/Bulat.png"
+      "../teksture/Bulat.png"
     ),
   });
   const points = new THREE.Points(geo, mat);
